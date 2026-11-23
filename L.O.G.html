@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>L.O.G | Love Of God 찬양팀 포털</title>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!-- Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <!-- 숨겨진 트리거: 로고 5번 연속 클릭 시 관리자 등록 창 오픈 -->
+      <div class="brand-area" id="brandLogo" title="L.O.G (Love Of God)">
+        <span class="brand-sub">LOVE OF GOD WORSHIP TEAM</span>
+        <h1 class="brand-title">L.O.G</h1>
+      </div>
+
+      <nav class="main-nav">
+        <button class="nav-link active" data-target="home">홈</button>
+        <button class="nav-link" data-target="setlist">예배 콘티</button>
+        <button class="nav-link" data-target="calendar">사역 일정</button>
+      </nav>
+
+      <div class="auth-controls" id="authControls">
+        <!-- JS에서 로그인 상태에 따라 동적 렌더링 -->
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- 1. Home / Hero Section -->
+    <section id="section-home" class="page-section active">
+      <div class="hero-banner">
+        <div class="hero-overlay"></div>
+        <img 
+          src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1920&q=80" 
+          alt="L.O.G 찬양팀 예배 현장" 
+          class="hero-bg-img"
+        />
+        <div class="container hero-content">
+          <p class="hero-verse">시편 95:1 · 오라 우리가 여호와께 노래하며 우리의 구원의 반석을 향하여 즐거이 외치자</p>
+          <h2 class="hero-headline">하나님의 사랑(Love Of God)을<br/>노래하는 우리의 고백</h2>
+          <p class="hero-desc">
+            L.O.G 찬양팀 사역자 및 팀원들을 위한 공간입니다.<br/>
+            매주 예배 콘티, 악보 레퍼런스, 합주 및 사역 일정을 확인하세요.
+          </p>
+          <div class="hero-actions">
+            <button class="btn btn-primary-light" onclick="navigateTo('setlist')">
+              이번 주 콘티 확인하기
+            </button>
+            <button class="btn btn-outline-light" onclick="navigateTo('calendar')">
+              사역 일정표 보기
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Home Summary Grid -->
+      <div class="container home-summary-wrap">
+        <div class="summary-grid">
+          <!-- 다가오는 예배 콘티 요약 -->
+          <div class="card summary-card">
+            <div class="card-header-row">
+              <span class="badge badge-bronze">NEXT WORSHIP</span>
+              <button class="text-btn" onclick="navigateTo('setlist')">전체보기 →</button>
+            </div>
+            <div id="homeLatestSetlist">
+              <!-- JS 렌더링 -->
+            </div>
+          </div>
+
+          <!-- 다가오는 주요 일정 요약 -->
+          <div class="card summary-card">
+            <div class="card-header-row">
+              <span class="badge badge-navy">UPCOMING SCHEDULE</span>
+              <button class="text-btn" onclick="navigateTo('calendar')">일정표 열기 →</button>
+            </div>
+            <div id="homeUpcomingEvents">
+              <!-- JS 렌더링 -->
+            </div>
+          </div>
+
+          <!-- 팀 공지사항 -->
+          <div class="card summary-card">
+            <div class="card-header-row">
+              <span class="badge badge-gray">MINISTRY NOTICE</span>
+            </div>
+            <h3 class="card-title-serif">주일 오전 1부 리허설 안내</h3>
+            <p class="card-body-text">
+              모든 세션 및 싱어 팀원은 주일 오전 8시 30분까지 본당 2층 찬양대실로 모여 개인 악기 세팅 및 음향 체크를 마쳐주시기 바랍니다.
+            </p>
+            <div class="notice-meta">
+              <span>L.O.G 사역팀</span>
+              <span>·</span>
+              <span>매주 주일 08:30</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Setlist (예배 콘티) Section -->
+    <section id="section-setlist" class="page-section">
+      <div class="container section-container">
+        <div class="section-header">
+          <div>
+            <span class="section-eyebrow">L.O.G WORSHIP SETLIST</span>
+            <h2 class="section-title">예배 콘티 및 곡 리스트</h2>
+          </div>
+          <!-- 관리자 전용 버튼 -->
+          <div id="adminSetlistActions" class="admin-only-area"></div>
+        </div>
+
+        <div class="setlist-layout">
+          <!-- 좌측: 예배 날짜별 콘티 목록 -->
+          <aside class="setlist-sidebar">
+            <div class="sidebar-label">예배 목록</div>
+            <div id="setlistTabs" class="setlist-tab-list">
+              <!-- JS 렌더링 -->
+            </div>
+          </aside>
+
+          <!-- 우측: 선택된 콘티 상세 내용 -->
+          <div class="setlist-detail-area" id="setlistDetailArea">
+            <!-- JS 렌더링 -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Calendar (사역 일정) Section -->
+    <section id="section-calendar" class="page-section">
+      <div class="container section-container">
+        <div class="section-header">
+          <div>
+            <span class="section-eyebrow">L.O.G SCHEDULE</span>
+            <h2 class="section-title">찬양팀 사역 캘린더</h2>
+          </div>
+          <!-- 관리자 전용 버튼 -->
+          <div id="adminCalendarActions" class="admin-only-area"></div>
+        </div>
+
+        <div class="calendar-wrapper card">
+          <div class="calendar-toolbar">
+            <div class="calendar-month-nav">
+              <button class="icon-btn" id="prevMonthBtn" aria-label="이전 달">
+                <i data-lucide="chevron-left"></i>
+              </button>
+              <h3 id="calendarMonthTitle" class="calendar-month-title">2026년 11월</h3>
+              <button class="icon-btn" id="nextMonthBtn" aria-label="다음 달">
+                <i data-lucide="chevron-right"></i>
+              </button>
+            </div>
+            <div class="calendar-legend">
+              <span class="legend-item"><i class="dot dot-worship"></i>주일/수요예배</span>
+              <span class="legend-item"><i class="dot dot-practice"></i>합주/연습</span>
+              <span class="legend-item"><i class="dot dot-event"></i>팀 모임/기도회</span>
+            </div>
+          </div>
+
+          <div class="calendar-grid-header">
+            <div class="sun">일</div>
+            <div>월</div>
+            <div>화</div>
+            <div>수</div>
+            <div>목</div>
+            <div>금</div>
+            <div class="sat">토</div>
+          </div>
+          <div id="calendarGrid" class="calendar-grid">
+            <!-- JS 렌더링 -->
+          </div>
+        </div>
+
+        <!-- 선택된 날짜 상세 일정 패널 -->
+        <div class="card selected-day-panel" id="selectedDayPanel">
+          <!-- JS 렌더링 -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <p class="footer-brand">L.O.G (Love Of God)</p>
+        <p class="footer-sub">L.O.G 찬양사역팀 · 본당 2층 찬양대실</p>
+      </div>
+      <p class="footer-copy">© 2026 L.O.G Worship Team. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- 1. 로그인 / 회원가입 모달 -->
+  <div class="modal-backdrop" id="authModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="authModalTitle">L.O.G 팀원 로그인</h3>
+        <button class="close-modal-btn" onclick="closeModal('authModal')">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <!-- 로그인 폼 -->
+      <form id="loginForm" class="modal-form">
+        <div class="form-group">
+          <label>아이디</label>
+          <input type="text" id="loginId" placeholder="아이디를 입력하세요" required />
+        </div>
+        <div class="form-group">
+          <label>비밀번호</label>
+          <input type="password" id="loginPw" placeholder="비밀번호를 입력하세요" required />
+        </div>
+        <p id="loginErrorMsg" class="error-text"></p>
+        <button type="submit" class="btn btn-primary full-width">로그인</button>
+
+        <div class="auth-switch-area">
+          <span>아직 계정이 없으신가요?</span>
+          <button type="button" class="link-btn" onclick="switchAuthMode('register', false)">팀원 등록하기</button>
+        </div>
+
+        <!-- 테스트용 빠른 관리자 로그인 -->
+        <div class="demo-login-box">
+          <span>테스트용 빠른 접속:</span>
+          <button type="button" class="demo-btn" onclick="quickAdminLogin()">관리자(leader)로 바로 로그인</button>
+        </div>
+      </form>
+
+      <!-- 회원가입 폼 -->
+      <form id="registerForm" class="modal-form hidden">
+        <div class="form-group">
+          <label>이름 (직분/파트)</label>
+          <input type="text" id="regName" placeholder="예: 박지훈 (일렉기타)" required />
+        </div>
+        <div class="form-group">
+          <label>아이디</label>
+          <input type="text" id="regId" placeholder="사용할 아이디" required />
+        </div>
+        <div class="form-group">
+          <label>비밀번호</label>
+          <input type="password" id="regPw" placeholder="비밀번호" required />
+        </div>
+
+        <!-- 특수 관리자 등록 토글 영역 -->
+        <div class="admin-secret-toggle">
+          <button type="button" class="subtle-trigger-btn" id="toggleAdminSecretBtn">
+            팀 리더 / 관리자 권한으로 등록하시나요?
+          </button>
+        </div>
+
+        <div id="adminSecretField" class="form-group secret-box hidden">
+          <label>L.O.G 관리자 초대 코드 <span class="badge-mini">ADMIN KEY</span></label>
+          <input type="password" id="regSecretCode" placeholder="부여받은 관리자 전용 코드를 입력하세요" />
+          <small class="help-text">* 정확한 초대 코드를 입력해야 콘티 및 일정 편집 권한이 부여됩니다.</small>
+        </div>
+
+        <p id="regErrorMsg" class="error-text"></p>
+        <button type="submit" class="btn btn-primary full-width">등록 완료</button>
+
+        <div class="auth-switch-area">
+          <span>이미 계정이 있으신가요?</span>
+          <button type="button" class="link-btn" onclick="switchAuthMode('login', false)">로그인으로 돌아가기</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. 새 콘티(예배) 추가 모달 (관리자 전용) -->
+  <div class="modal-backdrop" id="addSetlistModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>새 예배 콘티 생성</h3>
+        <button class="close-modal-btn" onclick="closeModal('addSetlistModal')">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <form id="addSetlistForm" class="modal-form">
+        <div class="form-group">
+          <label>예배 날짜</label>
+          <input type="date" id="newSetlistDate" required />
+        </div>
+        <div class="form-group">
+          <label>예배명 / 주제</label>
+          <input type="text" id="newSetlistTitle" placeholder="예: 주일 2부 예배 - 감사의 제사" required />
+        </div>
+        <div class="form-group">
+          <label>인도자 및 본문 말씀</label>
+          <input type="text" id="newSetlistLeader" placeholder="예: 김민준 인도자 · 시편 100:1-5" required />
+        </div>
+        <div class="form-group">
+          <label>팀원 전달 메모 (합주 포인트)</label>
+          <textarea id="newSetlistNote" rows="3" placeholder="예: 2번 곡에서 3번 곡 넘어갈 때 코드 G로 자연스럽게 브릿지 연결합니다."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary full-width">콘티 생성하기</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. 콘티 내 곡 추가 모달 (관리자 전용) -->
+  <div class="modal-backdrop" id="addSongModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>콘티에 찬양 곡 추가</h3>
+        <button class="close-modal-btn" onclick="closeModal('addSongModal')">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <form id="addSongForm" class="modal-form">
+        <div class="form-group">
+          <label>곡 제목</label>
+          <input type="text" id="songTitle" placeholder="예: 주의 은혜라" required />
+        </div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label>코드 (Key)</label>
+            <input type="text" id="songKey" placeholder="예: G → A" required />
+          </div>
+          <div class="form-group">
+            <label>템포 (BPM)</label>
+            <input type="text" id="songBpm" placeholder="예: 72 BPM" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>레퍼런스 링크 (유튜브/악보 URL)</label>
+          <input type="url" id="songLink" placeholder="https://www.youtube.com/..." />
+        </div>
+        <div class="form-group">
+          <label>곡 구성 및 세션 메모</label>
+          <input type="text" id="songMemo" placeholder="예: Intro - V - C - V - C - Bridge(x2) - C" />
+        </div>
+        <button type="submit" class="btn btn-primary full-width">곡 추가하기</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. 사역 일정 추가 모달 (관리자 전용) -->
+  <div class="modal-backdrop" id="addEventModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>사역 일정 등록</h3>
+        <button class="close-modal-btn" onclick="closeModal('addEventModal')">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <form id="addEventForm" class="modal-form">
+        <div class="form-group">
+          <label>날짜</label>
+          <input type="date" id="eventDate" required />
+        </div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label>일정 구분</label>
+            <select id="eventType">
+              <option value="worship">주일/수요예배</option>
+              <option value="practice">합주/연습</option>
+              <option value="event">팀 모임/기도회</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>시간</label>
+            <input type="text" id="eventTime" placeholder="예: 오후 7:30" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>일정 제목</label>
+          <input type="text" id="eventTitle" placeholder="예: 주일예배 전체 합주" required />
+        </div>
+        <div class="form-group">
+          <label>장소 및 상세 내용</label>
+          <input type="text" id="eventDesc" placeholder="예: 본당 2층 찬양대실 (전체 세션 참석)" />
+        </div>
+        <button type="submit" class="btn btn-primary full-width">일정 저장하기</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Custom JS -->
+  <script src="script.js"></script>
+</body>
+</html>
